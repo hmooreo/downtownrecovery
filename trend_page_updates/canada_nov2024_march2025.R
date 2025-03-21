@@ -273,3 +273,26 @@ both_distinct_plot
 saveWidget(
   both_distinct_plot,
   '/Users/jpg23/UDP/downtown_recovery/trend_updates/canada/may2024_march2025/normalized_distinct_no_outliers.html')
+
+# Export for website update
+#=====================================
+
+# what does previous file for website look like?
+previous_website <- read.csv('/Users/jpg23/UDP/downtown_recovery/trend_updates/canada/trend_canada_oct23_oct24.csv')
+head(previous_website)
+
+range(previous_website$date)
+range(both$date)
+
+for_website <- 
+  rbind(
+    previous_website %>% filter(date >= as.Date('2024-02-01')),
+    both %>% filter(date >= as.Date('2024-11-01') & date <= as.Date('2025-02-28')) %>%
+      select(c(city, date, normalized_distinct_clean, normalized_stops_clean))
+  )
+
+head(for_website)
+range(for_website$date)
+
+write.csv(for_website,
+          '/Users/jpg23/UDP/downtown_recovery/trend_updates/canada/trend_canada_feb1_2024_to_feb28_2025.csv')
